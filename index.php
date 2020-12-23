@@ -1,3 +1,12 @@
+<?php
+  $servername = "localhost";
+  $username = "root";
+  $password = "";
+  $dbname = "employee-management";
+
+  $conn = new mysqli($servername, $username, $password, $dbname);
+
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -61,14 +70,27 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Roky Das</td>
-                <td>drok</td>
-                <td>Male</td>
-                <td>Gardening</td>
-                <td>22</td>
-                <td>19<sup>th</sup> July, 1998</td>
-              </tr>
+              <?php
+                $query = "Select * from employee";
+                $result = mysqli_query($conn, $query);
+                $resultCheck = mysqli_num_rows($result);
+
+                if($resultCheck > 0) {
+                  while($row = mysqli_fetch_assoc($result)) {?>
+                    <tr>
+                      <td><?php echo $row['name'] ?></td>
+                      <td><?php echo $row['email'] ?></td>
+                      <td><?php echo $row['gender'] ?></td>
+                      <td><?php echo $row['hobbies'] ?></td>
+                      <td><?php echo $row['address'] ?></td>
+                      <td><?php echo $row['age'] ?></td>
+                      <td><?php echo $row['date_of_birth'] ?></td>
+                    </tr>
+              <?php
+                  }
+                }
+               ?>
+
             </tbody>
           </table>
         </div>
@@ -83,52 +105,7 @@
   </body>
 </html>
 
-
-<?php
-  // $connection = mysqli_connect("localhost", "root", "", "employee-management");
-  // // $db = mysqli_select_db($connection, "employee-management");
-  //
-  // if(isset($_POST['insert'])) {
-  //
-  //   if(isset($_POST['name']) && isset($_POST['email']) && isset($_POST['gender']) && isset($_POST['address']) && isset($_POST['age']) && isset($_POST['hobby']) && isset($_POST['birthday']))
-  //   {
-  //     $name = $_POST['name'];
-  //     $email = $_POST['email'];
-  //     $gender = $_POST['gender'];
-  //     $address = $_POST['address'];
-  //     $age = $_POST['age'];
-  //     $birthday = $_POST['birthday'];
-  //     $hobby = $_POST['hobby'];
-  //
-  //     $hobbies = "";
-  //     foreach($hobby as $newHobby)
-  //     {
-  //       $hobbies .= $newHobby.",";
-  //     }
-  //
-  //     $query = "INSERT INTO `employee` (`name`, `email`, `gender`, `hobbies`, `address`, `age` ) VALUES (`$name`, `$email`, `$gender`, `$hobbies`, `$address`, `$age`)";
-  //
-  //     $query_run = mysqli_query($connection, $query);
-  //     if($query_run) {
-  //       echo "<h3 class='text-center text-success'>Employee inserted successfully</p>";
-  //     }
-  //   }
-  //   else {
-  //     echo "<h3 class='text-center text-danger'>Fill Up all fields</p>";
-  //   }
-  //
-  // }
-
-
- ?>
-
  <?php
-  $servername = "localhost";
-  $username = "root";
-  $password = "";
-  $dbname = "employee-management";
-
-  $conn = new mysqli($servername, $username, $password, $dbname);
 
   if(isset($_POST['insert'])) {
 
@@ -163,6 +140,8 @@
     }
 
   }
+
+
 
   $conn->close();
 ?>
