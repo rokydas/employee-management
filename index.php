@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Employee Management System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
   </head>
@@ -29,15 +29,15 @@
             </div>
             <div class="form-group">
               <p>Select your hobbies</p>
-              <input type="checkbox" id="hobby1" name="Gardening" value="Bike">
+              <input type="checkbox" id="hobby1" name="hobby[]" value="Gardening">
               <label for="hobby1"> Gardening</label><br>
-              <input type="checkbox" id="hobby2" name="Reading Book" value="Car">
+              <input type="checkbox" id="hobby2" name="hobby[]" value="Reading Book">
               <label for="hobby2"> Reading Book</label><br>
-              <input type="checkbox" id="hobby3" name="Watching Movies" value="Boat">
+              <input type="checkbox" id="hobby3" name="hobby[]" value="Watching Movies">
               <label for="hobby3"> Watching Movies</label><br><br>
             </div>
             <input class="form-control" type="text" name="address" placeholder="Enter your address:"><br>
-            <input class="form-control" type="text" name="age" placeholder="Enter your age:"><br>
+            <input class="form-control" type="number" name="age" placeholder="Enter your age:"><br>
             <div class="form-group">
               <label for="birthday">Birthday:</label><br><br>
               <input type="date" id="birthday" name="birthday"><br><br>
@@ -69,14 +69,6 @@
                 <td>22</td>
                 <td>19<sup>th</sup> July, 1998</td>
               </tr>
-              <tr>
-                <td>Roky Das</td>
-                <td>drok</td>
-                <td>Male</td>
-                <td>Gardening</td>
-                <td>22</td>
-                <td>19<sup>th</sup> July, 1998</td>
-              </tr>
             </tbody>
           </table>
         </div>
@@ -93,19 +85,84 @@
 
 
 <?php
-  $connection = mysqli_connect("localhost", "root", "");
-  $db = mysqli_select_db($connection, "employee-management");
-
-  if(isset($_POST['insert'])) {
-    $name = $_POST['name'];
-    $emails = $_POST['email'];
-    $gender = $_POST['gender'];
-    // $hobbies = $_POST['hobbies'];
-    $address = $_POST['address'];
-    $age = $_POST['age'];
-    // $date_of_birth = $_POST['date_of_birth'];
-    echo "<script>alert(`$gender`)</script>";
-  }
+  // $connection = mysqli_connect("localhost", "root", "", "employee-management");
+  // // $db = mysqli_select_db($connection, "employee-management");
+  //
+  // if(isset($_POST['insert'])) {
+  //
+  //   if(isset($_POST['name']) && isset($_POST['email']) && isset($_POST['gender']) && isset($_POST['address']) && isset($_POST['age']) && isset($_POST['hobby']) && isset($_POST['birthday']))
+  //   {
+  //     $name = $_POST['name'];
+  //     $email = $_POST['email'];
+  //     $gender = $_POST['gender'];
+  //     $address = $_POST['address'];
+  //     $age = $_POST['age'];
+  //     $birthday = $_POST['birthday'];
+  //     $hobby = $_POST['hobby'];
+  //
+  //     $hobbies = "";
+  //     foreach($hobby as $newHobby)
+  //     {
+  //       $hobbies .= $newHobby.",";
+  //     }
+  //
+  //     $query = "INSERT INTO `employee` (`name`, `email`, `gender`, `hobbies`, `address`, `age` ) VALUES (`$name`, `$email`, `$gender`, `$hobbies`, `$address`, `$age`)";
+  //
+  //     $query_run = mysqli_query($connection, $query);
+  //     if($query_run) {
+  //       echo "<h3 class='text-center text-success'>Employee inserted successfully</p>";
+  //     }
+  //   }
+  //   else {
+  //     echo "<h3 class='text-center text-danger'>Fill Up all fields</p>";
+  //   }
+  //
+  // }
 
 
  ?>
+
+ <?php
+  $servername = "localhost";
+  $username = "root";
+  $password = "";
+  $dbname = "employee-management";
+
+  $conn = new mysqli($servername, $username, $password, $dbname);
+
+  if(isset($_POST['insert'])) {
+
+    if(isset($_POST['name']) && isset($_POST['email']) && isset($_POST['gender']) && isset($_POST['address']) && isset($_POST['age']) && isset($_POST['hobby']) && isset($_POST['birthday']))
+    {
+      $name = $_POST['name'];
+      $email = $_POST['email'];
+      $gender = $_POST['gender'];
+      $address = $_POST['address'];
+      $age = $_POST['age'];
+      $birthday = $_POST['birthday'];
+      $hobby = $_POST['hobby'];
+
+      $hobbies = "";
+      foreach($hobby as $newHobby)
+      {
+        $hobbies .= $newHobby.", ";
+      }
+
+      $sql = "INSERT INTO employee (name, email, gender, hobbies, address, age, date_of_birth)
+      VALUES ('$name', '$email', '$gender', '$hobbies', '$address', '$age', '$birthday')";
+
+
+      if ($conn->query($sql) === TRUE) {
+        echo "<h3 class='text-center text-success'>New record created successfully</h3>";
+      } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+      }
+    }
+    else {
+      echo "<h3 class='text-center text-danger'>Fill Up all fields</p>";
+    }
+
+  }
+
+  $conn->close();
+?>
