@@ -1,30 +1,24 @@
 <?php
-  $servername = "localhost";
-  $username = "root";
-  $password = "";
-  $dbname = "employee-management";
-
-  $conn = new mysqli($servername, $username, $password, $dbname);
-
-?>
+  require './db.php';
+ ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
     <title>Employee Management System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
   </head>
   <body>
     <h1 class="text-center m-5">This is an employee management system</h1>
 
-    <div class="container">
+    <div class="custom-container">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="box mb-5">
             <h3>Insert Employee</h3>
           </div>
-          <form class="" action="index.php" method="post">
+          <form class="" action="insert.php" method="post">
             <input class="form-control" type="text" name="name" placeholder="Enter your Name:"><br>
             <input class="form-control" type="text" name="email" placeholder="Enter your Email:"><br>
             <div class="form-group">
@@ -54,19 +48,31 @@
             <input class="btn btn-primary" type="submit" name="insert" value="Insert Employee"><br><br>
           </form>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-9">
           <div class="box mb-5">
             <h3>List of Employees</h3>
           </div>
-          <table class="table">
+          <table class="table table-bordered">
+            <col style="width:14%">
+	          <col style="width:14%">
+	          <col style="width:14%">
+            <col style="width:14%">
+	          <col style="width:16%">
+            <col style="width:10%">
+	          <col style="width:16%">
+            <col style="width:8%">
+	          <col style="width:8%">
             <thead>
               <tr>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Gender</th>
                 <th>Hobbies</th>
+                <th>Address</th>
                 <th>Age</th>
                 <th>Date of Birth</th>
+                <th>Update</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -85,6 +91,12 @@
                       <td><?php echo $row['address'] ?></td>
                       <td><?php echo $row['age'] ?></td>
                       <td><?php echo $row['date_of_birth'] ?></td>
+                      <td><button class="btn btn-warning">Update</button></td>
+                      <td>
+                        <form class="" action="delete.php?id=<?php echo $row['employee_id'];?>" method="post">
+                          <button class="btn btn-danger" name="delete">Delete</button>
+                        </form>
+                      </td>
                     </tr>
               <?php
                   }
@@ -104,44 +116,3 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
   </body>
 </html>
-
- <?php
-
-  if(isset($_POST['insert'])) {
-
-    if(isset($_POST['name']) && isset($_POST['email']) && isset($_POST['gender']) && isset($_POST['address']) && isset($_POST['age']) && isset($_POST['hobby']) && isset($_POST['birthday']))
-    {
-      $name = $_POST['name'];
-      $email = $_POST['email'];
-      $gender = $_POST['gender'];
-      $address = $_POST['address'];
-      $age = $_POST['age'];
-      $birthday = $_POST['birthday'];
-      $hobby = $_POST['hobby'];
-
-      $hobbies = "";
-      foreach($hobby as $newHobby)
-      {
-        $hobbies .= $newHobby.", ";
-      }
-
-      $sql = "INSERT INTO employee (name, email, gender, hobbies, address, age, date_of_birth)
-      VALUES ('$name', '$email', '$gender', '$hobbies', '$address', '$age', '$birthday')";
-
-
-      if ($conn->query($sql) === TRUE) {
-        echo "<h3 class='text-center text-success'>New record created successfully</h3>";
-      } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-      }
-    }
-    else {
-      echo "<h3 class='text-center text-danger'>Fill Up all fields</p>";
-    }
-
-  }
-
-
-
-  $conn->close();
-?>
