@@ -23,9 +23,7 @@
       $sql = "INSERT INTO employee (name, email, gender, hobbies, address, age, date_of_birth)
       VALUES ('$name', '$email', '$gender', '$hobbies', '$address', '$age', '$birthday')";
 
-
       if ($conn->query($sql) === TRUE) {
-        // echo "<h3 class='text-center text-success'>New record created successfully</h3>";
         header('Location: ./index.php');
         exit;
       } else {
@@ -33,7 +31,7 @@
       }
     }
     else {
-      echo "<h3 class='text-center text-danger'>Fill Up all fields</p>";
+      echo "<h3 class='text-center text-danger'>Fill Up all fields</h3>";
     }
 
   }

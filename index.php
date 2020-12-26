@@ -8,9 +8,15 @@
     <title>Employee Management System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
+    <script type=“text/javascript”>
+      function newUpdate()
+      {
+        alert('skfdh');
+      }
+    </script>
   </head>
   <body>
-    <h1 class="text-center m-5">This is an employee management system</h1>
+    <h1 class="text-center m-4">This is an employee management system</h1>
 
     <div class="custom-container">
       <div class="row">
@@ -20,7 +26,7 @@
           </div>
           <form class="" action="insert.php" method="post">
             <input class="form-control" type="text" name="name" placeholder="Enter your Name:"><br>
-            <input class="form-control" type="text" name="email" placeholder="Enter your Email:"><br>
+            <input class="form-control" type="email" name="email" placeholder="Enter your Email:"><br>
             <div class="form-group">
               <p>Please select your gender:</p>
               <input type="radio" id="male" name="gender" value="Male">
@@ -91,7 +97,11 @@
                       <td><?php echo $row['address'] ?></td>
                       <td><?php echo $row['age'] ?></td>
                       <td><?php echo $row['date_of_birth'] ?></td>
-                      <td><button class="btn btn-warning">Update</button></td>
+                      <td>
+                        <form action="update.php?id=<?php echo $row['employee_id']; ?>&name=<?php echo $row['name'] ?>&email=<?php echo $row['email'] ?>&gender=<?php echo $row['gender'] ?>&hobbies=<?php echo $row['hobbies'] ?>&address=<?php echo $row['address'] ?>&age=<?php echo $row['age'] ?>&birthday=<?php echo $row['date_of_birth'] ?>" method="post">
+                          <a href="#update"><button class="btn btn-warning" name="update">Update</button></a>
+                        </form>
+                      </td>
                       <td>
                         <form class="" action="delete.php?id=<?php echo $row['employee_id'];?>" method="post">
                           <button class="btn btn-danger" name="delete">Delete</button>
@@ -105,9 +115,16 @@
 
             </tbody>
           </table>
+
         </div>
       </div>
     </div>
+
+    <script type="text/javascript">
+      function update() {
+        alert('sfd');
+      }
+    </script>
 
 
 
